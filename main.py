@@ -1,10 +1,12 @@
+from datetime import datetime
 
 def add_expense():
     amount = float(input("Enter the amount spent: "))
     category = input("Enter the category of expense (e.g., Food, Transport, Entertainment): ")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     with open("expenses.csv", "a") as file:
-        file.write(f"{amount},{category}\n")
+        file.write(f"{timestamp}, {amount}, {category}\n")
 
     print("\nExpense Added Successfully!\n")
     print(f"Amount: ₹{amount:.2f}")
@@ -14,14 +16,17 @@ def view_expenses():
     print("\nAll Expenses:\n")
     with open("expenses.csv", "r") as file:
         for line in file:
-            amount, category = line.strip().split(",")
-            print(f"Amount: ₹{amount}, Category: {category}")
+            timestamp, amount, category = line.strip().split(",")
+            print("-"*20)
+            print(f"Date: {timestamp}\nAmount: ₹{float(amount):.2f}\nCategory: {category}")
+            print("-"*20)
+
 
 def view_total():
     total = 0
     with open("expenses.csv", "r") as file:
         for line in file:
-            amount, category = line.strip().split(",")
+            timestamp, amount, category = line.strip().split(",")
             total += float(amount)
 
     print(f"\nTotal Expenses: ₹{total:.2f}")
@@ -69,7 +74,7 @@ while True:
     print("6. Exit")
 
     choice = input("Enter your choice: ")
-    if choice=="5":
+    if choice=="6":
         print("Thank you for using Expense Tracker!")
         break
     elif choice=="1":
@@ -81,10 +86,7 @@ while True:
     elif choice=="4":
         search_by_category()
     elif choice=="5":
-        delete_all_expenses()
-    elif choice=="6":
-        print("Thank you for using Expense Tracker!")
-        break
+            delete_all_expenses()
     else:
         print("Invalid choice. Please try again.")
 

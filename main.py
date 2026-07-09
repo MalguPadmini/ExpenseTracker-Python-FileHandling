@@ -37,6 +37,24 @@ def delete_all_expenses():
     else:
         print("\nInvalid input")
 
+def search_by_category():
+    search_category = input("Enter Category: ")
+    print(f"Expenses in {search_category}")
+    with open("expenses.csv","r") as file:
+        found = False
+        total = 0
+        for line in file:
+            amount, category = line.strip().split(",")
+            if category.lower() == search_category.lower():
+                print(f"Amount: ₹{amount}\n")
+                found = True
+                total+= float(amount)
+        if not found:
+            print(f"\n No expenses found in {search_category} category.")
+        else:
+            print(f"\nTotal Expenses in {search_category}: ₹{total:.2f}")
+
+
 while True:
 
     print("=" * 40)
@@ -46,8 +64,9 @@ while True:
     print("1. Add Expense")
     print("2. View Expenses")
     print("3. View Total")
-    print("4. Delete all expenses")
-    print("5. Exit")
+    print("4. Search by Category")
+    print("5. Delete all expenses")
+    print("6. Exit")
 
     choice = input("Enter your choice: ")
     if choice=="5":
@@ -60,7 +79,12 @@ while True:
     elif choice=="3":
         view_total()
     elif choice=="4":
+        search_by_category()
+    elif choice=="5":
         delete_all_expenses()
+    elif choice=="6":
+        print("Thank you for using Expense Tracker!")
+        break
     else:
         print("Invalid choice. Please try again.")
 

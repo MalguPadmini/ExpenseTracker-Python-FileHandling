@@ -2,7 +2,7 @@ from datetime import datetime
 
 def add_expense():
     amount = float(input("Enter the amount spent: "))
-    category = input("Enter the category of expense (e.g., Food, Transport, Entertainment): ")
+    category = input("Enter the category of expense (e.g., Food, Transport, Entertainment): ").strip().title()
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     with open("expenses.csv", "a") as file:
@@ -59,6 +59,18 @@ def search_by_category():
         else:
             print(f"\nTotal Expenses in {search_category}: ₹{total:.2f}")
 
+def category_summary():
+	category_totals = {}
+	with open("expenses.csv","r") as file:
+		for line in file:
+			timestamp, amount, category = line.strip().split(",")
+			if category in category_totals:
+				category_totals[category] += float(amount)
+			else:
+				category_totals[category] = float(amount)
+			
+		for category, amount in category_totals.items():
+			print(f"{category} : ₹{float(amount):.2f}\n")
 
 while True:
 
@@ -71,10 +83,12 @@ while True:
     print("3. View Total")
     print("4. Search by Category")
     print("5. Delete all expenses")
-    print("6. Exit")
+    print("6. View category summary")
+    print("7. Exit")
+    
 
     choice = input("Enter your choice: ")
-    if choice=="6":
+    if choice=="7":
         print("Thank you for using Expense Tracker!")
         break
     elif choice=="1":
@@ -87,6 +101,8 @@ while True:
         search_by_category()
     elif choice=="5":
             delete_all_expenses()
+    elif choice=="6":
+        category_summary()
     else:
         print("Invalid choice. Please try again.")
 

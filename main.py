@@ -104,5 +104,5 @@ while True:
     elif choice=="6":
         category_summary()
     else:
-        print("Invalid choice. Please try again.")
+        print("Invalid choice. Please try again!.")
 
